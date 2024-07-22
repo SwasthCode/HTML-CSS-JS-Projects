@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0">
+	<title>OTP Generator and Validator</title>
+	<link href=
+"https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+		rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 flex justify-center
+			items-center h-screen">
+	<div class="max-w-md mx-auto p-8 bg-white 
+				shadow-md rounded-lg border-2 
+				border-green-400">
+		<h1 class="text-2xl font-semibold mb-5">
+			OTP Generator | Validator
+		</h1>
+		<button id="generate-otp"
+				class="px-4 py-2 bg-blue-500 text-white
+					rounded-md hover:bg-blue-600 
+					focus:outline-none">
+			Generate OTP
+		</button>
+		<div id="otp-box"
+			class="hidden mt-4 bg-white border-2
+					border-gray-300 rounded-md p-4">
+		</div>
+		<input id="user-input" type="text"
+			class="mt-4 block w-full border-2 
+					border-green-300 rounded-md 
+					shadow-sm focus:ring-indigo-500
+					focus:border-indigo-500"
+			placeholder="Enter OTP">
+		<button id="validate-otp"
+				class="mt-4 px-4 py-2 bg-blue-500 
+					text-white rounded-md 
+					hover:bg-blue-600 
+					focus:outline-none" 
+				disabled>
+			Validate OTP
+		</button>
+		<div id="otp-status"
+			class="mt-4 text-sm 
+					text-gray-500">
+		</div>
+	</div>
+	<script>
+		const generateOTPButton = document.getElementById('generate-otp');
+		const otpBox = document.getElementById('otp-box');
+		const userInput = document.getElementById('user-input');
+		const validateOTPButton = document.getElementById('validate-otp');
+		const otpStatus = document.getElementById('otp-status');
+		generateOTPButton.addEventListener('click', () => {
+			let generatedOtp = '';
+			const characters = 
+'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			for (let i = 0; i < 6; i++) {
+				generatedOtp += characters.charAt(Math
+					.floor(Math.random() * characters.length));
+			}
+			otpBox.textContent = generatedOtp;
+			otpBox.classList.remove('hidden');
+			validateOTPButton.disabled = false;
+			otpStatus.textContent = '';
+		});
+		validateOTPButton.addEventListener('click', () => {
+			const enteredOTP = userInput.value;
+			const generatedOTP = otpBox.textContent;
+			if (!enteredOTP) {
+				otpStatus.textContent = 'Please enter OTP';
+			} else if (enteredOTP === generatedOTP) {
+				otpStatus.textContent = 'Valid OTP';
+				otpStatus.classList.remove('text-red-500');
+				otpStatus.classList.add('text-green-500');
+			} else {
+				otpStatus.textContent = 'Invalid OTP';
+				otpStatus.classList.remove('text-green-500');
+				otpStatus.classList.add('text-red-500');
+			}
+		});
+	</script>
+</body>
+
+</html>
